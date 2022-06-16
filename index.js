@@ -22,11 +22,21 @@ const tweets = [
 
 twiterooServer.post('/sign-up', (request, response) => {    
     users.push(request.body);
-    response.send(users);
+    response.send(`OK!!! User ${request.body.username} created!`);
 })
 
 twiterooServer.get('/tweets', (request, response) => {
-    response.send(tweets);
+    const lastTweets = [];
+    if (tweets.length < 10) {
+        for (let i = tweets.length - 1; i >= 0; i--) {
+            lastTweets.push(tweets[i]);
+        }
+    } else {
+        for (let i = tweets.length - 1; i > tweets.length - 11; i--) {  
+        lastTweets.push(tweets[i]);
+        }
+    }
+    response.send(lastTweets);
 })
 
 twiterooServer.post('/tweets', (request, response) => {
@@ -35,8 +45,7 @@ twiterooServer.post('/tweets', (request, response) => {
     userTweet.avatar = users.find(user => user.username === request.body.username).avatar;
     userTweet.tweet = request.body.tweet;
     tweets.push(userTweet);
-    response.send(tweets);
+    response.send(`OK!!! Tweet ${request.body.tweet} created!`);	
 })
-
 
 twiterooServer.listen(5000);
