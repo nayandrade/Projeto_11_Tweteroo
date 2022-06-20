@@ -26,17 +26,8 @@ twiterooServer.post('/sign-up', (request, response) => {
 })
 
 twiterooServer.get('/tweets', (request, response) => {
-    const lastTweets = [];
-    if (tweets.length < 10) {
-        for (let i = tweets.length - 1; i >= 0; i--) {
-            lastTweets.push(tweets[i]);
-        }
-    } else {
-        for (let i = tweets.length - 1; i > tweets.length - 11; i--) {  
-        lastTweets.push(tweets[i]);
-        }
-    }
-    response.send(lastTweets);
+    const lastTweets = [...tweets];
+    response.send(lastTweets.reverse().slice(0, 10));
 })
 
 twiterooServer.post('/tweets', (request, response) => {
